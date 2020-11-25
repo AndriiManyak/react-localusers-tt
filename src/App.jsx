@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.scss';
 
-import { Login } from './components/Login';
+import { SignUpForm } from './components/SignUpForm/SignUpForm';
 
 export const App = () => (
   <div className="App">
-    <Login />
+    <SignUpForm />
   </div>
 );
