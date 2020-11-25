@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import './Login.scss';
 
 const initialValues = {
-  login: '',
+  selectedUser: 0,
   password: '',
 };
 
@@ -19,21 +19,45 @@ export const Login = ({ users }) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
 
+    console.log(value);
+
     setValues(prevValues => ({
       ...prevValues,
       [name]: value,
+    }));
+
+    setErrors(prevErrors => ({
+      ...prevErrors,
+      [name]: '',
     }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!values.login) {
+    validateForm();
+  };
+
+  const validateForm = () => {
+    let isFormValid = true;
+
+    if (!values.selectedUser) {
+      isFormValid = false;
+
       setErrors(prevErrors => ({
         ...prevErrors,
-        login: 'login is required',
+        selectedUser: 'You need to chose user',
       }));
     }
+
+    if (values.password !== users[values.selectedUser].password) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        password: 'Incorect password',
+      }));
+    }
+
+    return isFormValid;
   };
 
   return (
@@ -42,8 +66,8 @@ export const Login = ({ users }) => {
       onSubmit={handleSubmit}
     >
       <select
-        name="login"
-        value={values.login}
+        name="selectedUser"
+        value={values.selectedUser}
         onChange={handleChange}
       >
         <option>Choose user</option>
@@ -51,13 +75,15 @@ export const Login = ({ users }) => {
           users.map(user => (
             <option
               key={user.id}
-              value={user.login}
+              value={user.id}
             >
               {user.login}
             </option>
           ))
         }
       </select>
+
+      {(errors.selectedUser) && (<span>{errors.selectedUser}</span>)}
 
       <input
         type="password"
@@ -66,6 +92,8 @@ export const Login = ({ users }) => {
         placeholder="password"
         onChange={handleChange}
       />
+
+      {(errors.password) && (<span>{errors.password}</span>)}
 
       <button
         type="submit"
