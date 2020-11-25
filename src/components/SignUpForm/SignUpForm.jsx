@@ -49,21 +49,27 @@ export const SignUpForm = () => {
 
     Object.keys(values).forEach((key) => {
       if (!values[key]) {
-        console.log(key);
         isFormValid = false;
         setErrors(prevErrors => ({
           ...prevErrors,
           [key]: `${key} is required`,
         }));
-        console.log(errors);
       }
     });
+
+    if (values.password !== values.confirmPassword) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        passwordConfirmed: false,
+      }));
+    }
 
     return isFormValid;
   };
 
   const handleLocalStorage = () => {
     const users = JSON.parse(localStorage.getItem('users'));
+    // const users = JSON.parse(localStorage.getItem('users') || '0');
 
     console.log(users);
 
@@ -93,6 +99,10 @@ export const SignUpForm = () => {
           </React.Fragment>
         ))
       }
+
+      {!errors.passwordConfirmed && (
+        <span>Passwords must be </span>
+      )}
 
       <button
         type="submit"
