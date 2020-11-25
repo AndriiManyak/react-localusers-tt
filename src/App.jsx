@@ -4,7 +4,7 @@ import './App.scss';
 import { Login } from './components/Login/Login';
 
 import { SignUpForm } from './components/SignUpForm/SignUpForm';
-import { User } from './components/User/User';
+import { User } from './components/User/Users';
 
 export const App = () => {
   const [loggedUserId, setLoggedUser] = useState(0);
@@ -16,17 +16,17 @@ export const App = () => {
 
     if (loggedUser) {
       loginUser(loggedUser);
-    } else {
-      const userIds = JSON.parse(localStorage.getItem('users'));
-      const usersFromStorage = [];
-
-      userIds.forEach((userId) => {
-        const localUser = JSON.parse(localStorage.getItem(`user${userId}`));
-
-        usersFromStorage.push(localUser);
-      });
-      setUsers(usersFromStorage);
     }
+
+    const userIds = JSON.parse(localStorage.getItem('users'));
+    const usersFromStorage = [];
+
+    userIds.forEach((userId) => {
+      const localUser = JSON.parse(localStorage.getItem(`user${userId}`));
+
+      usersFromStorage.push(localUser);
+    });
+    setUsers(usersFromStorage);
   }, []);
 
   const loginUser = (loggedUser) => {
@@ -42,6 +42,7 @@ export const App = () => {
           ? (
             <User
               userId={loggedUserId}
+              users={users}
             />
           )
           : (
