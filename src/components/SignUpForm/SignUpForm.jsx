@@ -40,8 +40,6 @@ export const SignUpForm = () => {
     if (validateForm()) {
       handleLocalStorage();
     }
-
-    console.log(errors);
   };
 
   const validateForm = () => {
@@ -68,17 +66,41 @@ export const SignUpForm = () => {
   };
 
   const handleLocalStorage = () => {
-    const users = JSON.parse(localStorage.getItem('users'));
-    // const users = JSON.parse(localStorage.getItem('users') || '0');
+    // const users = JSON.parse(localStorage.getItem('users'));
+    const users = JSON.parse(localStorage.getItem('users') || '0');
 
     console.log(users);
 
-    const newUsers = users
-      ? [...users, values]
-      : [values];
+    if (users === 0) {
+      const newId = 1;
+      const userToSave = {
+        ...values,
+        id: newId,
+      };
+      // saveToLocalStorage(newId);
 
-    localStorage.setItem('users', JSON.stringify(newUsers));
+      localStorage.setItem('users', JSON.stringify([newId]));
+      localStorage.setItem(`user${newId}`, JSON.stringify(userToSave));
+    } else {
+      console.log(users);
+      const newId = users[users.length - 1] + 1;
+
+      const userToSave = {
+        ...values,
+        id: newId,
+      };
+
+      localStorage.setItem('users', JSON.stringify([...users, newId]));
+      localStorage.setItem(`user${newId}`, JSON.stringify(userToSave));
+
+      console.log(newId);
+    }
   };
+
+  // const saveToLocalStorage = (id) => {
+  //   localStorage.setItem('users', JSON.stringify([id]));
+  //   localStorage.setItem(`user${id}`, JSON.stringify([id]));
+  // };
 
   return (
     <form

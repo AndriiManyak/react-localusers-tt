@@ -14,6 +14,8 @@ export const Login = ({ users }) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
 
+  console.log(users);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -32,16 +34,6 @@ export const Login = ({ users }) => {
         login: 'login is required',
       }));
     }
-
-    const user = users.find(currentUser => (
-      currentUser.login === values.login
-    ));
-
-    console.log(user);
-
-    const isPasswordCorrect = user.password === values.password;
-
-    console.log(isPasswordCorrect);
   };
 
   return (
@@ -58,7 +50,7 @@ export const Login = ({ users }) => {
         {
           users.map(user => (
             <option
-              key={user.login}
+              key={user.id}
               value={user.login}
             >
               {user.login}

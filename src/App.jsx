@@ -10,9 +10,15 @@ export const App = () => {
 
   useEffect(() => {
     console.log('aaaa');
-    const localUsers = JSON.parse(localStorage.getItem('users'));
+    const userIds = JSON.parse(localStorage.getItem('users'));
+    const usersFromStorage = [];
 
-    setUsers(localUsers);
+    userIds.forEach((userId) => {
+      const localUser = JSON.parse(localStorage.getItem(`user${userId}`));
+
+      usersFromStorage.push(localUser);
+    });
+    setUsers(usersFromStorage);
   }, []);
 
   return (
