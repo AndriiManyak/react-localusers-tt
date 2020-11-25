@@ -10,11 +10,9 @@ const initialValues = {
   password: '',
 };
 
-export const Login = ({ users }) => {
+export const Login = ({ users, loginUser }) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
-
-  console.log(users);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -35,7 +33,10 @@ export const Login = ({ users }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    validateForm();
+    if (validateForm()) {
+      localStorage.setItem('loggedUser', values.selectedUser);
+      loginUser(values.selectedUser);
+    }
   };
 
   const validateForm = () => {
@@ -48,6 +49,8 @@ export const Login = ({ users }) => {
         ...prevErrors,
         selectedUser: 'You need to chose user',
       }));
+
+      return isFormValid;
     }
 
     if (values.password !== users[values.selectedUser].password) {
@@ -55,6 +58,8 @@ export const Login = ({ users }) => {
         ...prevErrors,
         password: 'Incorect password',
       }));
+
+      isFormValid = false;
     }
 
     return isFormValid;

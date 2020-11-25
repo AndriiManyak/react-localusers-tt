@@ -4,36 +4,51 @@ import './App.scss';
 import { Login } from './components/Login/Login';
 
 import { SignUpForm } from './components/SignUpForm/SignUpForm';
+import { User } from './components/User/User';
 
 export const App = () => {
+  const [loggedUserId, setLoggedUser] = useState(0);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     console.log('aaaa');
-    const userIds = JSON.parse(localStorage.getItem('users'));
-    const usersFromStorage = [];
+    const loggedUser = Number(localStorage.getItem('loggedUser'));
 
-    userIds.forEach((userId) => {
-      const localUser = JSON.parse(localStorage.getItem(`user${userId}`));
+    if (loggedUser) {
+      loginUser(loggedUser);
+    } else {
+      const userIds = JSON.parse(localStorage.getItem('users'));
+      const usersFromStorage = [];
 
-      usersFromStorage.push(localUser);
-    });
-    setUsers(usersFromStorage);
+      userIds.forEach((userId) => {
+        const localUser = JSON.parse(localStorage.getItem(`user${userId}`));
+
+        usersFromStorage.push(localUser);
+      });
+      setUsers(usersFromStorage);
+    }
   }, []);
+
+  const loginUser = (loggedUser) => {
+    setLoggedUser(loggedUser);
+  };
 
   return (
     <div className="App">
       <SignUpForm />
 
       {
-        users
+        loggedUserId
           ? (
-            <Login
-              users={users}
+            <User
+              userId={loggedUserId}
             />
           )
           : (
-            <p>No users</p>
+            <Login
+              users={users}
+              loginUser={loginUser}
+            />
           )
       }
     </div>
