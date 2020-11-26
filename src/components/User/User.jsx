@@ -1,13 +1,15 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
+import './User.scss';
+
 export const User = ({
   name,
   surname,
   login,
   position,
 }) => (
-  <div>
+  <div className="User">
     <h3>{`${name} ${surname}`}</h3>
     <p>
       <span>Login: </span>

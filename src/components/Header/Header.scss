@@ -1,0 +1,40 @@
+.Header {
+  height: 60px;
+  border-bottom: 2px solid #031629;
+
+  &__nav {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    padding: 0 20px;
+    font-size: 20px;
+
+    >a {
+      color: black;
+      text-decoration: none;
+      text-transform: uppercase;
+
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &__link {
+    &--active {
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        background-color: black;
+      }
+    }
+  }
+}
