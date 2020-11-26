@@ -5,7 +5,7 @@ import { Header } from '../../components/Header';
 import { UserList } from '../UserList/UserList';
 
 export const Users = () => (
-  <>
+  <div className="Users">
     <Header />
 
     <Switch>
@@ -18,8 +18,8 @@ export const Users = () => (
       </Route>
 
       <Route path="/users/text">
-        <UserList />
+        A
       </Route>
     </Switch>
-  </>
+  </div>
 );
