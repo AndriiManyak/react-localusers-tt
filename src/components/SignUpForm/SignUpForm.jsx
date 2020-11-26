@@ -1,21 +1,14 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 
+import {
+  signUpFormInitial,
+  formFields,
+} from '../../api/initialStates';
 import './SignUpForm.scss';
 
-const initialValues = {
-  name: '',
-  surname: '',
-  middleName: '',
-  position: '',
-  phoneNumber: '',
-  login: '',
-  password: '',
-  confirmPassword: '',
-};
-
 export const SignUpForm = () => {
-  const [values, setValues] = useState(initialValues);
+  const [values, setValues] = useState(signUpFormInitial);
   const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
@@ -33,10 +26,6 @@ export const SignUpForm = () => {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // console.log('from valid?', validateForm());
-
     if (validateForm()) {
       handleLocalStorage();
     }
@@ -50,15 +39,17 @@ export const SignUpForm = () => {
         isFormValid = false;
         setErrors(prevErrors => ({
           ...prevErrors,
-          [key]: `${key} is required`,
+          [key]: `${formFields[key]} is required`,
         }));
       }
     });
 
     if (values.password !== values.confirmPassword) {
+      isFormValid = false;
+
       setErrors(prevErrors => ({
         ...prevErrors,
-        passwordConfirmed: false,
+        passwordNotConfirmed: true,
       }));
     }
 
@@ -108,25 +99,35 @@ export const SignUpForm = () => {
       onSubmit={handleSubmit}
     >
       {
-        Object.keys(values).map(key => (
+        Object.keys(formFields).map(key => (
           <React.Fragment key={key}>
             <input
+              className="SignUpForm__input"
               type="text"
               name={key}
               value={values[key]}
-              placeholder={key}
+              placeholder={formFields[key]}
               onChange={handleChange}
             />
-            <span>{errors[key]}</span>
+            <span
+              className="SignUpForm__error"
+            >
+              {errors[key]}
+            </span>
           </React.Fragment>
         ))
       }
 
-      {!errors.passwordConfirmed && (
-        <span>Passwords must be </span>
+      {errors.passwordNotConfirmed && (
+        <span
+          className="SignUpForm__error"
+        >
+          Passwords must be equal
+        </span>
       )}
 
       <button
+        className="SignUpForm__submit-button"
         type="submit"
       >
         Submit
