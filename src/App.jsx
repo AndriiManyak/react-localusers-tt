@@ -1,57 +1,25 @@
 /* eslint-disable no-console */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import './App.scss';
-import { Login } from './components/Login/Login';
+import { Login } from './pages/Login/Login';
+import { SignUpForm } from './pages/SignUpForm';
+import { Users } from './pages/Users/Users';
 
-import { SignUpForm } from './components/SignUpForm/SignUpForm';
-import { User } from './components/User/Users';
+export const App = () => (
+  <div className="App">
+    <Switch>
+      <Route exact path="/">
+        <Login />
+      </Route>
 
-export const App = () => {
-  const [loggedUserId, setLoggedUser] = useState(0);
-  const [users, setUsers] = useState([]);
+      <Route path="/signup">
+        <SignUpForm />
+      </Route>
 
-  useEffect(() => {
-    console.log('aaaa');
-    const loggedUser = Number(localStorage.getItem('loggedUser'));
-
-    if (loggedUser) {
-      loginUser(loggedUser);
-    }
-
-    const userIds = JSON.parse(localStorage.getItem('users'));
-    const usersFromStorage = [];
-
-    userIds.forEach((userId) => {
-      const localUser = JSON.parse(localStorage.getItem(`user${userId}`));
-
-      usersFromStorage.push(localUser);
-    });
-    setUsers(usersFromStorage);
-  }, []);
-
-  const loginUser = (loggedUser) => {
-    setLoggedUser(loggedUser);
-  };
-
-  return (
-    <div className="App">
-      <SignUpForm />
-
-      {
-        loggedUserId
-          ? (
-            <User
-              userId={loggedUserId}
-              users={users}
-            />
-          )
-          : (
-            <Login
-              users={users}
-              loginUser={loginUser}
-            />
-          )
-      }
-    </div>
-  );
-};
+      <Route path="/users">
+        <Users />
+      </Route>
+    </Switch>
+  </div>
+);
