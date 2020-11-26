@@ -1,29 +1,24 @@
 /* eslint-disable no-console */
-import React, { useState } from 'react';
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
 
 import {
-  signUpFormInitial,
-  formFields,
+  userFormFields,
+  userFormInitial,
 } from '../../api/initialStates';
-import './SignUpForm.scss';
 
-export const SignUpForm = () => {
-  const [values, setValues] = useState(signUpFormInitial);
+export const EditUser = () => {
+  const [values, setValues] = useState(userFormInitial);
   const [errors, setErrors] = useState({});
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  useEffect(() => {
+    const loggedLogin = localStorage.getItem('loggedUser');
+    const loggedUser = JSON.parse(localStorage.getItem(loggedLogin));
 
-    setValues(prevValues => ({
-      ...prevValues,
-      [name]: value,
-    }));
-
-    setErrors(prevErrors => ({
-      ...prevErrors,
-      [name]: '',
-    }));
-  };
+    console.log(loggedUser);
+    setValues({ ...loggedUser });
+  }, []);
 
   const handleSubmit = (event) => {
     if (validateForm()) {
@@ -39,7 +34,7 @@ export const SignUpForm = () => {
         isFormValid = false;
         setErrors(prevErrors => ({
           ...prevErrors,
-          [key]: `${formFields[key]} is required`,
+          [key]: `${userFormFields[key]} is required`,
         }));
       }
     });
@@ -57,56 +52,38 @@ export const SignUpForm = () => {
   };
 
   const handleLocalStorage = () => {
-    // const users = JSON.parse(localStorage.getItem('users'));
-    const users = JSON.parse(localStorage.getItem('users') || '0');
 
-    console.log(users);
-
-    if (users === 0) {
-      const newId = 1;
-      const userToSave = {
-        ...values,
-        id: newId,
-      };
-      // saveToLocalStorage(newId);
-
-      localStorage.setItem('users', JSON.stringify([newId]));
-      localStorage.setItem(`user${newId}`, JSON.stringify(userToSave));
-    } else {
-      console.log(users);
-      const newId = users[users.length - 1] + 1;
-
-      const userToSave = {
-        ...values,
-        id: newId,
-      };
-
-      localStorage.setItem('users', JSON.stringify([...users, newId]));
-      localStorage.setItem(`user${newId}`, JSON.stringify(userToSave));
-
-      console.log(newId);
-    }
   };
 
-  // const saveToLocalStorage = (id) => {
-  //   localStorage.setItem('users', JSON.stringify([id]));
-  //   localStorage.setItem(`user${id}`, JSON.stringify([id]));
-  // };
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setValues(prevValues => ({
+      ...prevValues,
+      [name]: value,
+    }));
+
+    setErrors(prevErrors => ({
+      ...prevErrors,
+      [name]: '',
+    }));
+  };
 
   return (
     <form
       className="SignUpForm"
       onSubmit={handleSubmit}
     >
+      <h2>AAA</h2>
       {
-        Object.keys(formFields).map(key => (
+        Object.keys(userFormFields).map(key => (
           <React.Fragment key={key}>
             <input
               className="SignUpForm__input"
               type="text"
               name={key}
               value={values[key]}
-              placeholder={formFields[key]}
+              placeholder={userFormFields[key]}
               onChange={handleChange}
             />
             <span

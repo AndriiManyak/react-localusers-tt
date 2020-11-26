@@ -1,23 +1,36 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import './Login.scss';
 
 const initialValues = {
-  selectedUser: 0,
+  selectedUser: '',
   password: '',
 };
 
-export const Login = ({ users, loginUser }) => {
+export const Login = () => {
+  const history = useHistory();
+  const [users, setUsers] = useState([]);
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
 
+  useEffect(() => {
+    const [loggedUser, ...localUsers] = Object.keys(localStorage);
+
+    console.log(localUsers);
+
+    if (localUsers.length === 0) {
+      history.push('/signup');
+    }
+
+    setUsers(localUsers);
+  }, []);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-
-    console.log(value);
 
     setValues(prevValues => ({
       ...prevValues,
@@ -35,7 +48,7 @@ export const Login = ({ users, loginUser }) => {
 
     if (validateForm()) {
       localStorage.setItem('loggedUser', values.selectedUser);
-      loginUser(values.selectedUser);
+      history.push('/users');
     }
   };
 
@@ -53,7 +66,9 @@ export const Login = ({ users, loginUser }) => {
       return isFormValid;
     }
 
-    if (values.password !== users[values.selectedUser].password) {
+    const user = JSON.parse(localStorage.getItem(values.selectedUser));
+
+    if (values.password !== user.password) {
       setErrors(prevErrors => ({
         ...prevErrors,
         password: 'Incorect password',
@@ -71,26 +86,36 @@ export const Login = ({ users, loginUser }) => {
       onSubmit={handleSubmit}
     >
       <select
+        className="Login__input"
         name="selectedUser"
         value={values.selectedUser}
         onChange={handleChange}
       >
-        <option>Choose user</option>
+        <option value="">Choose user</option>
         {
           users.map(user => (
             <option
-              key={user.id}
-              value={user.id}
+              key={user}
+              value={user}
             >
-              {user.login}
+              {user}
             </option>
           ))
         }
       </select>
 
-      {(errors.selectedUser) && (<span>{errors.selectedUser}</span>)}
+      {
+        (errors.selectedUser) && (
+          <span
+            className="Login__error"
+          >
+            {errors.selectedUser}
+          </span>
+        )
+      }
 
       <input
+        className="Login__input"
         type="password"
         name="password"
         value={values.password}
@@ -98,9 +123,16 @@ export const Login = ({ users, loginUser }) => {
         onChange={handleChange}
       />
 
-      {(errors.password) && (<span>{errors.password}</span>)}
+      {
+        (errors.password) && (
+          <span className="Login__error">
+            {errors.password}
+          </span>
+        )
+      }
 
       <button
+        className="Login__submit-button"
         type="submit"
       >
         Lon In
