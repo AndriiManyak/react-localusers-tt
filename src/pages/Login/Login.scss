@@ -1,0 +1,13 @@
+.Login {
+  &__signup {
+    display: flex;
+    justify-content: center;
+    >a {
+      padding: 15px 20px;
+      color: white;
+      background-color: #1378DA;
+      text-decoration: none;
+      font-size: 20px;
+    }
+  }
+}

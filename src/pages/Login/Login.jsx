@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
+import './Login.scss';
+
 const initialValues = {
   selectedUser: '',
   password: '',
@@ -13,12 +15,9 @@ export const Login = () => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const loggedUser = localStorage.getItem('loggedUser');
-    const localUsers = Object.keys(localStorage);
-
-    if (loggedUser) {
-      history.push('/users');
-    }
+    const localUsers = Object.keys(localStorage).filter(key => (
+      key !== 'loggedUser'
+    ));
 
     setUsers(localUsers);
   }, []);
@@ -75,14 +74,14 @@ export const Login = () => {
   };
 
   return (
-    <>
+    <div className="Login">
       {
         users.length > 0
           ? (
             <>
               <h2>Log In</h2>
               <form
-                className="Form"
+                className="Login__Form Form"
                 onSubmit={handleSubmit}
               >
                 <select
@@ -145,12 +144,14 @@ export const Login = () => {
               <h2>
                 There are no users in database. Please sign up
               </h2>
-              <Link to="/signup">
-                Sign up
-              </Link>
+              <div className="Login__signup">
+                <Link to="/signup">
+                  Sign up
+                </Link>
+              </div>
             </>
           )
       }
-    </>
+    </div>
   );
 };
