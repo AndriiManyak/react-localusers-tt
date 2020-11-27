@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import {
   userFormInitial,
@@ -8,6 +9,7 @@ import {
 import './SignUpForm.scss';
 
 export const SignUpForm = () => {
+  const history = useHistory();
   const [values, setValues] = useState(userFormInitial);
   const [errors, setErrors] = useState({});
 
@@ -30,6 +32,7 @@ export const SignUpForm = () => {
 
     if (validateForm()) {
       handleLocalStorage();
+      history.push('/');
     }
   };
 
@@ -61,50 +64,52 @@ export const SignUpForm = () => {
   const handleLocalStorage = () => {
     const { confirmPassword, ...localUser } = values;
 
-    console.log(localUser);
-
     localStorage.setItem(`${localUser.login}`, JSON.stringify(localUser));
   };
 
   return (
-    <form
-      className="SignUpForm"
-      onSubmit={handleSubmit}
-    >
-      {
-        Object.keys(userFormFields).map(key => (
-          <React.Fragment key={key}>
-            <input
-              className="SignUpForm__input"
-              type={userFormFields[key].type}
-              name={key}
-              value={values[key]}
-              placeholder={userFormFields[key].text}
-              onChange={handleChange}
-            />
-            <span
-              className="SignUpForm__error"
-            >
-              {errors[key]}
-            </span>
-          </React.Fragment>
-        ))
-      }
+    <>
+      <h2>Sign Up</h2>
 
-      {errors.passwordNotConfirmed && (
-        <span
-          className="SignUpForm__error"
-        >
-          Passwords must be equal
-        </span>
-      )}
-
-      <button
-        className="SignUpForm__submit-button"
-        type="submit"
+      <form
+        className="SignUpForm"
+        onSubmit={handleSubmit}
       >
-        Submit
-      </button>
-    </form>
+        {
+          Object.keys(userFormFields).map(key => (
+            <React.Fragment key={key}>
+              <input
+                className="SignUpForm__input"
+                type={userFormFields[key].type}
+                name={key}
+                value={values[key]}
+                placeholder={userFormFields[key].text}
+                onChange={handleChange}
+              />
+              <span
+                className="SignUpForm__error"
+              >
+                {errors[key]}
+              </span>
+            </React.Fragment>
+          ))
+        }
+
+        {errors.passwordNotConfirmed && (
+          <span
+            className="SignUpForm__error"
+          >
+            Passwords must be equal
+          </span>
+        )}
+
+        <button
+          className="SignUpForm__submit-button"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
+    </>
   );
 };
