@@ -26,6 +26,13 @@ export const Header = () => (
       >
         Text form
       </NavLink>
+
+      <NavLink
+        to="/signup"
+        activeClassName="Header__link--active"
+      >
+        New user
+      </NavLink>
     </nav>
   </div>
 );
