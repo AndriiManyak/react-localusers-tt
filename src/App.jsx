@@ -1,24 +1,25 @@
+/* eslint-disable no-console */
 import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import './App.scss';
-import { Switch, Link, Route } from 'react-router-dom';
+import { Login } from './pages/Login/Login';
+import { SignUpForm } from './pages/SignUpForm';
+import { Users } from './pages/Users/Users';
 
 export const App = () => (
-  <div>
-    React starter pack
-    <div>
-      <nav className="nav">
-        <Link to="/">Home</Link>
-        <Link to="/users">Users</Link>
-      </nav>
+  <div className="App">
+    <Switch>
+      <Route exact path="/">
+        <Login />
+      </Route>
 
-      <Switch>
-        <Route path="/users">
-          <div>Users page</div>
-        </Route>
-        <Route path="/">
-          <div>Home page</div>
-        </Route>
-      </Switch>
-    </div>
+      <Route path="/signup">
+        <SignUpForm />
+      </Route>
+
+      <Route path="/users">
+        <Users />
+      </Route>
+    </Switch>
   </div>
 );
