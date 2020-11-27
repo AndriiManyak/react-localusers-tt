@@ -2,21 +2,30 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 
 import {
   userFormFields,
-  userFormInitial,
 } from '../../api/initialStates';
 
 export const EditUser = () => {
+  const history = useHistory();
   const [values, setValues] = useState(null);
   const [errors, setErrors] = useState({});
+  const [isChanged, setIsChanged] = useState(false);
 
   useEffect(() => {
     const loggedLogin = localStorage.getItem('loggedUser');
+
+    console.log(loggedLogin);
+
+    if (!loggedLogin) {
+      history.push('/');
+    }
+
     const loggedUser = JSON.parse(localStorage.getItem(loggedLogin));
 
-    console.log(loggedUser);
     setValues({
       ...loggedUser,
       confirmPassword: '',
@@ -28,6 +37,7 @@ export const EditUser = () => {
 
     if (validateForm()) {
       handleLocalStorage();
+      setIsChanged(true);
     }
   };
 
@@ -80,14 +90,19 @@ export const EditUser = () => {
 
       {values && (
         <form
-          className="SignUpForm"
+          className="Form"
           onSubmit={handleSubmit}
         >
           {
             Object.keys(userFormFields).map(key => (
               <React.Fragment key={key}>
                 <input
-                  className="SignUpForm__input"
+                  className={
+                    classNames(
+                      { Form__input: true },
+                      { 'Form__input--error': errors[key] },
+                    )
+                  }
                   type={userFormFields[key].type}
                   name={key}
                   value={values[key]}
@@ -95,7 +110,7 @@ export const EditUser = () => {
                   onChange={handleChange}
                 />
                 <span
-                  className="SignUpForm__error"
+                  className="Form__error"
                 >
                   {errors[key]}
                 </span>
@@ -105,18 +120,20 @@ export const EditUser = () => {
 
           {errors.passwordNotConfirmed && (
             <span
-              className="SignUpForm__error"
+              className="Form__error"
             >
               Passwords must be equal
             </span>
           )}
 
           <button
-            className="SignUpForm__submit-button"
+            className="Form__submit-button"
             type="submit"
           >
-            Submit
+            Save
           </button>
+
+          {isChanged && (<h2>Changes is saved</h2>)}
         </form>
       )}
 

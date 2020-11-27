@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 
 import {
   userFormInitial,
   userFormFields,
 } from '../../api/initialStates';
-import './SignUpForm.scss';
 
 export const SignUpForm = () => {
   const history = useHistory();
@@ -72,14 +72,19 @@ export const SignUpForm = () => {
       <h2>Sign Up</h2>
 
       <form
-        className="SignUpForm"
+        className="Form"
         onSubmit={handleSubmit}
       >
         {
           Object.keys(userFormFields).map(key => (
             <React.Fragment key={key}>
               <input
-                className="SignUpForm__input"
+                className={
+                  classNames(
+                    { Form__input: true },
+                    { 'Form__input--error': errors[key] },
+                  )
+                }
                 type={userFormFields[key].type}
                 name={key}
                 value={values[key]}
@@ -87,7 +92,7 @@ export const SignUpForm = () => {
                 onChange={handleChange}
               />
               <span
-                className="SignUpForm__error"
+                className="Form__error"
               >
                 {errors[key]}
               </span>
@@ -97,14 +102,14 @@ export const SignUpForm = () => {
 
         {errors.passwordNotConfirmed && (
           <span
-            className="SignUpForm__error"
+            className="Form__error"
           >
             Passwords must be equal
           </span>
         )}
 
         <button
-          className="SignUpForm__submit-button"
+          className="Form__submit-button"
           type="submit"
         >
           Submit

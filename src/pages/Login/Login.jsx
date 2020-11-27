@@ -1,10 +1,5 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-
-import './Login.scss';
 
 const initialValues = {
   selectedUser: '',
@@ -18,7 +13,8 @@ export const Login = () => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const [loggedUser, ...localUsers] = Object.keys(localStorage);
+    const loggedUser = localStorage.getItem('loggedUser');
+    const localUsers = Object.keys(localStorage);
 
     if (loggedUser) {
       history.push('/users');
@@ -78,70 +74,71 @@ export const Login = () => {
     return isFormValid;
   };
 
-  console.log(users.length);
-
   return (
     <>
       {
         users.length > 0
           ? (
-            <form
-              className="Login"
-              onSubmit={handleSubmit}
-            >
-              <select
-                className="Login__input"
-                name="selectedUser"
-                value={values.selectedUser}
-                onChange={handleChange}
+            <>
+              <h2>Log In</h2>
+              <form
+                className="Form"
+                onSubmit={handleSubmit}
               >
-                <option value="">Choose user</option>
+                <select
+                  className="Form__input"
+                  name="selectedUser"
+                  value={values.selectedUser}
+                  onChange={handleChange}
+                >
+                  <option value="">Choose user</option>
+                  {
+                    users.map(user => (
+                      <option
+                        key={user}
+                        value={user}
+                      >
+                        {user}
+                      </option>
+                    ))
+                  }
+                </select>
+
                 {
-                  users.map(user => (
-                    <option
-                      key={user}
-                      value={user}
+                  (errors.selectedUser) && (
+                    <span
+                      className="Form__error"
                     >
-                      {user}
-                    </option>
-                  ))
+                      {errors.selectedUser}
+                    </span>
+                  )
                 }
-              </select>
 
-              {
-                (errors.selectedUser) && (
-                  <span
-                    className="Login__error"
-                  >
-                    {errors.selectedUser}
-                  </span>
-                )
-              }
+                <input
+                  className="Form__input"
+                  type="password"
+                  name="password"
+                  value={values.password}
+                  placeholder="password"
+                  onChange={handleChange}
+                />
 
-              <input
-                className="Login__input"
-                type="password"
-                name="password"
-                value={values.password}
-                placeholder="password"
-                onChange={handleChange}
-              />
+                {
+                  (errors.password) && (
+                    <span className="Form__error">
+                      {errors.password}
+                    </span>
+                  )
+                }
 
-              {
-                (errors.password) && (
-                  <span className="Login__error">
-                    {errors.password}
-                  </span>
-                )
-              }
-
-              <button
-                className="Login__submit-button"
-                type="submit"
-              >
-                Lon In
-              </button>
-            </form>
+                <button
+                  className="Form__submit-button"
+                  type="submit"
+                >
+                  Lon In
+                </button>
+              </form>
+            </>
           )
           : (
             <>

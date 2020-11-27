@@ -1,0 +1,16 @@
+@import './form';
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
+h2 {
+  text-align: center;
+}
