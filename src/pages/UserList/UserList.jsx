@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { User } from '../../components/User/User';
 
+import './UserList.scss';
+
 export const UserList = () => {
   const [users, setUsers] = useState([]);
 
@@ -19,14 +21,17 @@ export const UserList = () => {
   }, []);
 
   return (
-    <div>
-      { console.log(users)}
+    <div className="UserList">
       {
         users.map(user => (
-          <User
-            key={user.id}
-            {...user}
-          />
+          <div
+            className="UserList__element"
+            key={user.login}
+          >
+            <User
+              {...user}
+            />
+          </div>
         ))
       }
     </div>

@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import './Login.scss';
 
@@ -20,10 +20,8 @@ export const Login = () => {
   useEffect(() => {
     const [loggedUser, ...localUsers] = Object.keys(localStorage);
 
-    console.log(localUsers);
-
-    if (localUsers.length === 0) {
-      history.push('/signup');
+    if (loggedUser) {
+      history.push('/users');
     }
 
     setUsers(localUsers);
@@ -80,63 +78,82 @@ export const Login = () => {
     return isFormValid;
   };
 
+  console.log(users.length);
+
   return (
-    <form
-      className="Login"
-      onSubmit={handleSubmit}
-    >
-      <select
-        className="Login__input"
-        name="selectedUser"
-        value={values.selectedUser}
-        onChange={handleChange}
-      >
-        <option value="">Choose user</option>
-        {
-          users.map(user => (
-            <option
-              key={user}
-              value={user}
+    <>
+      {
+        users.length > 0
+          ? (
+            <form
+              className="Login"
+              onSubmit={handleSubmit}
             >
-              {user}
-            </option>
-          ))
-        }
-      </select>
+              <select
+                className="Login__input"
+                name="selectedUser"
+                value={values.selectedUser}
+                onChange={handleChange}
+              >
+                <option value="">Choose user</option>
+                {
+                  users.map(user => (
+                    <option
+                      key={user}
+                      value={user}
+                    >
+                      {user}
+                    </option>
+                  ))
+                }
+              </select>
 
-      {
-        (errors.selectedUser) && (
-          <span
-            className="Login__error"
-          >
-            {errors.selectedUser}
-          </span>
-        )
+              {
+                (errors.selectedUser) && (
+                  <span
+                    className="Login__error"
+                  >
+                    {errors.selectedUser}
+                  </span>
+                )
+              }
+
+              <input
+                className="Login__input"
+                type="password"
+                name="password"
+                value={values.password}
+                placeholder="password"
+                onChange={handleChange}
+              />
+
+              {
+                (errors.password) && (
+                  <span className="Login__error">
+                    {errors.password}
+                  </span>
+                )
+              }
+
+              <button
+                className="Login__submit-button"
+                type="submit"
+              >
+                Lon In
+              </button>
+            </form>
+          )
+          : (
+            <>
+              <h2>
+                There are no users in database. Please sign up
+              </h2>
+              <Link to="/signup">
+                Sign up
+              </Link>
+            </>
+          )
       }
-
-      <input
-        className="Login__input"
-        type="password"
-        name="password"
-        value={values.password}
-        placeholder="password"
-        onChange={handleChange}
-      />
-
-      {
-        (errors.password) && (
-          <span className="Login__error">
-            {errors.password}
-          </span>
-        )
-      }
-
-      <button
-        className="Login__submit-button"
-        type="submit"
-      >
-        Lon In
-      </button>
-    </form>
+    </>
   );
 };
