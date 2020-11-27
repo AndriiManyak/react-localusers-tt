@@ -1,8 +1,8 @@
-.nav {
-  display: flex;
-  margin: 20px;
+@import './styles/main';
 
-  * {
-    margin-right: 10px;
-  }
+.App {
+  max-width: 1024px;
+  margin: auto;
+
+  padding: 20px;
 }

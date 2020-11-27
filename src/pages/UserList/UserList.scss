@@ -1,0 +1,8 @@
+.UserList {
+  display: flex;
+
+  &__element {
+    margin: 30px;
+    width: 330px;
+  }
+}
