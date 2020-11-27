@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 
 import {
@@ -68,7 +68,12 @@ export const SignUpForm = () => {
 
   return (
     <>
-      <h2>Sign Up</h2>
+      <h2>
+        <Link to="/">
+          &#8592;
+        </Link>
+        Sign Up
+      </h2>
 
       <form
         className="Form"
