@@ -14,6 +14,8 @@
 ### Installing
 * Fork and clone this repository
 * Run `npm install` in your terminal
+* Run `npm install classnames`
+* Run `npm install prop-types`
 * Run `npm start`
 
 ## Troubleshooting
