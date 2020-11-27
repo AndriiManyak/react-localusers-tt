@@ -1,6 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
@@ -17,8 +14,6 @@ export const EditUser = () => {
 
   useEffect(() => {
     const loggedLogin = localStorage.getItem('loggedUser');
-
-    console.log(loggedLogin);
 
     if (!loggedLogin) {
       history.push('/');

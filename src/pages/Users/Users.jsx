@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { EditUser } from '../EditUser/EditUser';
 import { Header } from '../../components/Header';
 import { UserList } from '../UserList/UserList';
+import { Text } from '../Text';
 
 export const Users = () => (
   <div className="Users">
@@ -18,7 +19,7 @@ export const Users = () => (
       </Route>
 
       <Route path="/users/text">
-        A
+        <Text />
       </Route>
     </Switch>
   </div>

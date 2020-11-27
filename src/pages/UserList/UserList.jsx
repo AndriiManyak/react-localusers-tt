@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { User } from '../../components/User/User';
 
