@@ -1,4 +1,4 @@
-#React application
+# React application
 
 -[DEMO](https://andriimanyak.github.io/react-localusers-tt/)
 
