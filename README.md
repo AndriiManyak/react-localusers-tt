@@ -1,6 +1,7 @@
 # React application
-
 -[DEMO](https://andriimanyak.github.io/react-localusers-tt/)
+
+## Local deployment
 
 ### Dependencies
 * Node v14.7.0
