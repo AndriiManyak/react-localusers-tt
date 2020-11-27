@@ -1,1 +1,1 @@
-[DEMO] (https://andriimanyak.github.io/react-localusers-tt/)
+[DEMO](https://andriimanyak.github.io/react-localusers-tt/)
